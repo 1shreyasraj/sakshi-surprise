@@ -95,20 +95,20 @@ transform:translateY(-12px);
 }
 
 .blurred-text{
-position:fixed;
-top:50%;
+position:absolute;
+top:140px;
 left:50%;
-transform:translate(-50%,-50%);
-font-size:80px;
+transform:translateX(-50%);
+font-size:72px;
 font-weight:900;
-color:rgba(255,77,141,0.15);
+color:rgba(255,77,141,0.38);
 text-transform:uppercase;
 white-space:nowrap;
-filter:blur(12px);
-animation:slideText 6s infinite linear;
+filter:blur(6px);
+animation:slideText 10s infinite linear;
 pointer-events:none;
-z-index:100;
-letter-spacing:10px;
+z-index:1;
+letter-spacing:8px;
 line-height:1;
 }
 
@@ -358,5 +358,3 @@ font-size:16px;
 margin-top:15px;
 font-size:22px;
 }
-
-

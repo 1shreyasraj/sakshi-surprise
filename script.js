@@ -20,9 +20,11 @@ createStickersHearts();
 if(id==="page5"){
 startLetter();
 }
-
-if(id==="page2"){
+if(id==="page2"){ 
 setupKeypadDrag();
+setupPasscodeKeyboard();
+} else {
+removePasscodeKeyboard();
 }
 }
 
@@ -38,9 +40,11 @@ document.getElementById(
 "d"+entered.length
 ).innerHTML="●";
 
-// Heart burst effect from clicked button
+// Heart burst effect from clicked button, fallback to default burst
 if(event && event.target){
 createHeartBurstFromButton(event.target);
+} else {
+createHeartBurst();
 }
 
 if(entered===correctPass){
@@ -313,6 +317,31 @@ heart.style.fontSize=(25+Math.random()*20)+"px";
 page4.appendChild(heart);
 setTimeout(()=>{heart.remove();},2000);
 },i*300);
+}
+}
+
+let passcodeKeyboardListener = null;
+
+function setupPasscodeKeyboard(){
+removePasscodeKeyboard();
+passcodeKeyboardListener = function(e){
+const key = e.key;
+if(/^[0-9]$/.test(key)){
+addNum(key);
+e.preventDefault();
+}
+if(key === "Backspace" || key === "Delete"){
+clearPass();
+e.preventDefault();
+}
+};
+document.addEventListener("keydown", passcodeKeyboardListener);
+}
+
+function removePasscodeKeyboard(){
+if(passcodeKeyboardListener){
+ document.removeEventListener("keydown", passcodeKeyboardListener);
+ passcodeKeyboardListener = null;
 }
 }
 

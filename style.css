@@ -94,6 +94,31 @@ transform:translateY(-12px);
 }
 }
 
+.blurred-text{
+position:absolute;
+top:250px;
+left:50%;
+transform:translateX(-50%);
+font-size:48px;
+font-weight:900;
+color:rgba(255,77,141,0.1);
+text-transform:uppercase;
+white-space:nowrap;
+filter:blur(8px);
+animation:slideText 4s infinite linear;
+pointer-events:none;
+z-index:1;
+}
+
+@keyframes slideText{
+0%{
+transform:translateX(-150%);
+}
+100%{
+transform:translateX(200%);
+}
+}
+
 .gallery{
 display:flex;
 overflow-x:auto;
@@ -101,6 +126,7 @@ width:100%;
 gap:15px;
 padding:20px;
 scroll-snap-type:x mandatory;
+user-select:none;
 }
 
 .gallery img{
@@ -159,6 +185,12 @@ pointer-events:none;
 animation:floatHeart linear forwards;
 }
 
+.heart-burst{
+position:absolute;
+pointer-events:none;
+animation:burst 1.5s ease-out forwards;
+}
+
 @keyframes floatHeart{
 0%{
 transform:translateY(100vh);
@@ -166,6 +198,81 @@ opacity:1;
 }
 100%{
 transform:translateY(-120px);
+opacity:0;
+}
+}
+
+@keyframes burst{
+0%{
+transform:translate(0,0);
+opacity:1;
+}
+100%{
+transform:translate(var(--tx),var(--ty));
+opacity:0;
+scale:0.3;
+}
+}
+
+.crying-emoji{
+position:absolute;
+font-size:120px;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+animation:sadBounce 2s ease-out forwards;
+pointer-events:none;
+}
+
+.sad-burst{
+position:absolute;
+pointer-events:none;
+animation:sadBurst 2s ease-out forwards;
+}
+
+@keyframes sadBounce{
+0%{
+scale:0;
+opacity:1;
+}
+50%{
+scale:1;
+}
+100%{
+scale:0.8;
+opacity:0;
+transform:translate(-50%,-50%) rotateZ(15deg);
+}
+}
+
+@keyframes sadBurst{
+0%{
+transform:translate(0,0);
+opacity:1;
+}
+100%{
+transform:translate(var(--tx),var(--ty));
+opacity:0;
+scale:0.2;
+}
+}
+
+.bouncing-heart-from-sticker{
+position:absolute;
+font-size:30px;
+pointer-events:none;
+animation:bounceUp 2s ease-out forwards;
+left:50px;
+top:80px;
+}
+
+@keyframes bounceUp{
+0%{
+transform:translateY(0);
+opacity:1;
+}
+100%{
+transform:translateY(-300px);
 opacity:0;
 }
 }

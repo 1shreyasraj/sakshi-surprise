@@ -12,6 +12,11 @@ page.classList.remove("active");
 document.getElementById(id)
 .classList.add("active");
 
+if(id==="page4"){
+setupGallerySwipe();
+createStickersHearts();
+}
+
 if(id==="page5"){
 startLetter();
 }
@@ -29,19 +34,22 @@ document.getElementById(
 "d"+entered.length
 ).innerHTML="●";
 
+// Heart burst effect for all numbers
+createHeartBurst();
+
 if(entered===correctPass){
 
 setTimeout(()=>{
 showPage("page3");
-},500);
+},1000);
 
 }
 else if(entered.length===4){
 
 setTimeout(()=>{
-alert("Wrong Passcode 🥺");
+showWrongPassword();
 clearPass();
-},500);
+},1000);
 
 }
 }
@@ -120,8 +128,51 @@ if(i>=letterText.length){
 clearInterval(timer);
 }
 
-},40);
+},80);
 
+}
+
+function createHeartBurst(){
+const emojis=["❤️","💖","💕","💗","💘","💝"];
+for(let i=0;i<8;i++){
+const heart=document.createElement("div");
+heart.classList.add("heart-burst");
+heart.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+heart.style.left=(40+Math.random()*20)+"%";
+heart.style.top="60%";
+heart.style.fontSize=(25+Math.random()*30)+"px";
+heart.style.setProperty("--tx",(Math.random()-0.5)*200+"px");
+heart.style.setProperty("--ty",-200-Math.random()*100+"px");
+document.getElementById("page2").appendChild(heart);
+setTimeout(()=>{heart.remove();},1500);
+}
+}
+
+function showWrongPassword(){
+const sadEmojis=["😢","😭","😞","😔"];
+const page2=document.getElementById("page2");
+
+// Create big crying emoji in center
+const cryingEmoji=document.createElement("div");
+cryingEmoji.classList.add("crying-emoji");
+cryingEmoji.innerHTML="😭";
+page2.appendChild(cryingEmoji);
+
+// Create sad emoji bursts
+for(let i=0;i<6;i++){
+const sadEmoji=document.createElement("div");
+sadEmoji.classList.add("sad-burst");
+sadEmoji.innerHTML=sadEmojis[Math.floor(Math.random()*sadEmojis.length)];
+sadEmoji.style.left=(40+Math.random()*20)+"%";
+sadEmoji.style.top="60%";
+sadEmoji.style.fontSize=(20+Math.random()*25)+"px";
+sadEmoji.style.setProperty("--tx",(Math.random()-0.5)*150+"px");
+sadEmoji.style.setProperty("--ty",-150-Math.random()*80+"px");
+page2.appendChild(sadEmoji);
+setTimeout(()=>{sadEmoji.remove();},2000);
+}
+
+setTimeout(()=>{cryingEmoji.remove();},2000);
 }
 
 function createHeart(){
@@ -167,6 +218,71 @@ setTimeout(()=>{
 heart.remove();
 },8000);
 
+}
+
+let lastSwipeTime=0;
+let touchStartX=0;
+
+function setupGallerySwipe(){
+const gallery=document.getElementById("gallery");
+if(!gallery) return;
+
+gallery.addEventListener("touchstart",e=>{
+touchStartX=e.touches[0].clientX;
+});
+
+gallery.addEventListener("touchend",e=>{
+const touchEndX=e.changedTouches[0].clientX;
+if(Math.abs(touchEndX-touchStartX)>50){
+const now=Date.now();
+if(now-lastSwipeTime>300){
+lastSwipeTime=now;
+createSwipeHearts();
+}
+}
+});
+
+gallery.addEventListener("scroll",e=>{
+const now=Date.now();
+if(now-lastSwipeTime>500){
+lastSwipeTime=now;
+createSwipeHearts();
+}
+});
+}
+
+function createSwipeHearts(){
+const emojis=["❤️","💖","💕","💗","💘","💝"];
+for(let i=0;i<6;i++){
+const heart=document.createElement("div");
+heart.classList.add("heart-burst");
+heart.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+heart.style.position="fixed";
+heart.style.left=(30+Math.random()*40)+"%";
+heart.style.top="60%";
+heart.style.fontSize=(20+Math.random()*25)+"px";
+heart.style.setProperty("--tx",(Math.random()-0.5)*250+"px");
+heart.style.setProperty("--ty",-250-Math.random()*100+"px");
+heart.style.zIndex="999";
+document.body.appendChild(heart);
+setTimeout(()=>{heart.remove();},1500);
+}
+}
+
+function createStickersHearts(){
+const page4=document.getElementById("page4");
+if(!page4) return;
+const emojis=["❤️","💖","💕"];
+for(let i=0;i<4;i++){
+setTimeout(()=>{
+const heart=document.createElement("div");
+heart.classList.add("bouncing-heart-from-sticker");
+heart.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+heart.style.fontSize=(25+Math.random()*20)+"px";
+page4.appendChild(heart);
+setTimeout(()=>{heart.remove();},2000);
+},i*300);
+}
 }
 
 setInterval(
